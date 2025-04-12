@@ -1,6 +1,7 @@
 from loguru import logger
 import matplotlib.pyplot as plt
 from exceptions import InsufficientFundsError, LimitBalance
+from pprint import pprint
 
 
 class BankAccount:
@@ -15,6 +16,7 @@ class BankAccount:
         self.operation = []
         self.number = 0
 
+    #пополнение счета
     def deposit(self, amount: float) -> None:
 
         self._balance += amount
@@ -22,6 +24,8 @@ class BankAccount:
         self.operation.append(self.number)
         self.add_transaction(f'{self.number} | Счёт № {self._account_number} | пополнение: {amount} | Баланс')
 
+
+    #списание со счета
     def withdraw(self, amount: float) -> None:
         try:
             if amount < self._balance:
@@ -34,20 +38,29 @@ class BankAccount:
         except InsufficientFundsError:
             logger.error(f'Недостаточно средств на балансе счета № {self._account_number}. Пополните баланс для снятия.')
 
+
+
     def add_transaction(self, operation: str) -> None:
         self._transaction_history[operation] = self._balance
 
 
     def get_transaction_history(self) -> dict[str]:
+
         logger.info(self._transaction_history)
+        return self._transaction_history
+        # for k in self._transaction_history.items():
+        #     logger.info(list(k))
+        #pprint(self._transaction_history)
 
 
     def get_balance(self) -> float:
         logger.info(f'Баланс счета № {self._account_number}: {self._balance} руб.')
+        return self._balance
 
 
     def __str__(self) -> str:
         logger.info(f'Текущий баланс по счету № {self._account_number}: {self._balance} руб.')
+        return (f'Текущий баланс по счету № {self._account_number}: {self._balance} руб.')
 
 
     def visualize_balance(self) -> None:
@@ -88,16 +101,18 @@ class SavingsAccount(BankAccount):
             else:
                 raise LimitBalance
         except LimitBalance:
-            logger.error(f'Сумма {amount} руб. превышает лимит снятия от баланса.')
+            logger.error(f'Сумма {amount} руб. превышает лимит ({round(self._balance*0.9)} руб.) снятия от баланса.')
 
 
 
-#dd = BankAccount("SA-101", 1000)
-#dd.get_balance()
-#dd.deposit(100)
-#dd.withdraw(50)
-#dd.deposit(70)
-#dd.withdraw(13)
-#dd.get_transaction_history()
-#dd.visualize_balance()
+#
+# dd = BankAccount("SA-101", 1000)
+
+# dd.get_balance()
+# dd.deposit(100)
+# dd.withdraw(50)
+# dd.deposit(70)
+# dd.withdraw(13)
+# dd.get_transaction_history()
+# # dd.visualize_balance()
 
