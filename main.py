@@ -12,31 +12,28 @@ bank = Bank()
 
 bill1 = BankAccount('SAP-101', 1000)
 bill2 = SavingsAccount('SSP-120', 500)
-bill3 = BankAccount('SAP-101', 1000)
+#bill3 = BankAccount('SAP-101', 1000)
 #создаем счета
 bank.add_account(bill1)
 bank.add_account(bill2)
-bank.add_account(bill3)
+#bank.add_account(bill3)
 #переводим деньги
-bank.transfer('SAP-101', 'SSP-120', 250)
+bank.transfer(from_acc=bill1, to_acc=bill2, amount=250)
+# bill1.get_balance()
+# bill2.get_balance()
 #простой счет
-bill1.withdraw(2000)
-#сберегательный счет
+bill1.deposit(2000)
+bill1.withdraw(350)
+# #сберегательный счет
 bill2.withdraw(490)
-#счета, которого нет
-bank.transfer('SAP-101', 'SSP-122', 100)
-bank.transfer('SAP-199', 'SSP-122', 100)
-bank.transfer('SAP-199', 'SSP-120', 100)
-#баланс
+bill2.deposit(55)
+bank.transfer(from_acc=bill2, to_acc=bill1, amount=330)
+# #баланс
 bill1.get_balance()
 bill2.get_balance()
-#визуализация
-bill2.deposit(100)
-bill2.withdraw(50)
-bill2.deposit(70)
-bill2.withdraw(13)
+#
 bill2.get_transaction_history()
-bill2.visualize_balance()
+#bill1.visualize_balance()
 
 
 
